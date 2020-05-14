@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Blank Page - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col col-lg-10 col-xl-9 mx-auto">
+                            <div class="card card-signin flex-row my-5">
+                                <div class="card-body col-sm-12 my-auto" style="text-align: center;">
+                                    <div class="row">
+                                        <div class="col col-lg-4" style="margin: 0 !important;padding: 0;"><img class="img-thumbnail" src="assets/img/hadoop.png" style="/*width: 100%;*/background: #0000ff;margin: 0 !important;background: linear-gradient(135deg, rgba(0,0,255,1) 0%, rgba(0,212,255,1) 100%);"></div>
+                                        <div class="col my-auto">
+                                            <h4>Hadoop Start Page</h4>
+                                            <p>In this page hadoop clusters will start.</p><button id="startButton" class="btn btn-primary" type="button">Start Hadoop</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer" style="position: absolute;bottom: 0;width: 100%;/*background-color: #333;*//*color: #fff;*/">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span style="font-size: 16pt;">Developed By Ömer Aytekin And Caner Kaya</span></div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    
+
+    <!---------------------->
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Hadoop Initializing</h4>
+        </div>
+        <div class="modal-body">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+        </div>
+        <div class="modal-footer">
+          <a type="button" href="brands.html" style="color: #fff;" class="btn btn-success">Continue <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!---------------------->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/chart.min.js"></script>
+    <script src="assets/js/bs-charts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script>
+        host = "http://ec2-100-24-119-180.compute-1.amazonaws.com:2626"
+        $("#startButton").click(function (){
+            $(".modal").modal('show');
+            $(".modal-footer").attr('style','display:none');
+            $.get(host + "/start-hadoop", function( data ) {
+                console.log(data);
+                $(".modal-body").html(data)
+                $(".modal-footer").removeAttr('style');
+            });
+        });
+    </script>
+</body>
+
+</html>
