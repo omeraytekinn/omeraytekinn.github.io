@@ -35,6 +35,13 @@
             color: #555 !important;
         }
         
+        .navbar {
+            background: rgb(78,115,223);
+            background: -moz-linear-gradient(159deg, rgba(78,115,223,1) 0%, rgba(99,126,207,1) 100%);
+            background: -webkit-linear-gradient(159deg, rgba(78,115,223,1) 0%, rgba(99,126,207,1) 100%);
+            background: linear-gradient(159deg, rgba(78,115,223,1) 0%, rgba(99,126,207,1) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#4e73df",endColorstr="#637ecf",GradientType=1);
+        }
         </style>
     </head>
     <body id="page-top">
@@ -227,7 +234,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
         <script src="assets/js/theme.js"></script>
         <script>
-        host = "https://ec2-35-175-124-117.compute-1.amazonaws.com:2626/";
+        host = "http://ec2-35-175-124-117.compute-1.amazonaws.com:2626/";
         $("#loadingScreen").attr("style", "display:none");
         
         function initTable(){

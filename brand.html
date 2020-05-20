@@ -34,7 +34,13 @@
             color: #555 !important;
         }
         
-        
+        .navbar {
+            background: rgb(78,115,223);
+            background: -moz-linear-gradient(159deg, rgba(78,115,223,1) 0%, rgba(99,126,207,1) 100%);
+            background: -webkit-linear-gradient(159deg, rgba(78,115,223,1) 0%, rgba(99,126,207,1) 100%);
+            background: linear-gradient(159deg, rgba(78,115,223,1) 0%, rgba(99,126,207,1) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#4e73df",endColorstr="#637ecf",GradientType=1);
+        }
         </style>
     </head>
     <body id="page-top">
@@ -52,7 +58,7 @@
         <div id="wrapper">
             <div class="d-flex flex-column" id="content-wrapper">
                 <div id="content">
-                    <nav class="navbar navbar-light navbar-expand-md" style="padding-top: 10px;padding-bottom: 10px;margin-bottom: 20px;background: linear-gradient(to right, #4e73df, #637ecf);">
+                    <nav class="navbar navbar-light navbar-expand-md" style="padding-top: 10px;padding-bottom: 10px;margin-bottom: 20px;">
                         <div class="container-fluid">
                             <a class="navbar-brand" href="brands.html" style="color: #FFFF00;">
                             <img src="assets/img/hadoop2.png" class="mr-2"  height="50" alt="">YTUExpress</a>
@@ -88,7 +94,7 @@
                         </div>
                     </nav>
                     <div class="container-fluid" id="main-content">
-                        <h3 class="text-dark mb-4" id="brandName" style="font-size: 24pt;">Brand1</h3>
+                        <h3 class="text-dark mb-4" id="brandName" style="font-size: 24pt;"></h3>
                         <div class="row mb-3">
                             <div class="col-lg-8 col-lg-12">
                                 <div class="row">
@@ -349,7 +355,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
         <script src="assets/js/theme.js"></script>
         <script>
-            host = "https://ec2-35-175-124-117.compute-1.amazonaws.com:2626/";
+            host = "http://ec2-35-175-124-117.compute-1.amazonaws.com:2626/";
 
             $.urlParam = function (name) {
                 var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -363,6 +369,7 @@
                 $("#loadingScreen").attr("style", "display:none");
             }
             else {
+                $("#brandName").html(brandName)
         
                 function initTable(){
                     $.ajax({
@@ -604,13 +611,13 @@
 
             $(".stActionBtn").click(function () {
                 if($(this).attr("id") == "btnMinmax"){
-                    script = "calc-minmax";
+                    script = "minmax";
                 } 
                 if($(this).attr("id") == "btnStd"){
-                    script = "calc-std";
+                    script = "std";
                 } 
                 if($(this).attr("id") == "btnMedian"){
-                    script = "calc-median";
+                    script = "median";
                 } 
                 $(this).parent().children(".st-info").attr("hidden","");
                 $(this).parent().children(".spinner-border").removeAttr("hidden");
@@ -633,7 +640,7 @@
                 $("#dataTable thead").attr("hidden","");
                 $("#footy").attr("hidden","");
                 $.ajax({
-                    url: host + "start/calc-count",
+                    url: host + "start/count",
                     success: function(data){
                         $("#brandsBody").html("<h2>Results</h2>"+data);
                         $("#loadingBar button").removeAttr("hidden");
