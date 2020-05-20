@@ -292,7 +292,7 @@
                     <div class="container my-auto">
                         <div class="text-center my-auto copyright">
                             <span style="font-size: 16pt;">
-                                Developed By Ömer Aytekin
+                                Designed And Developed By Ömer Aytekin
                             And Caner Kaya
                             </span>
                         </div>
@@ -367,7 +367,7 @@
                 $("#loadingScreen").attr("style", "display:none");
             }
             else {
-                $("#brandName").html("Brand:" + brandName)
+                $("#brandName").html("Brand:" + brandName.toUpperCase())
         
                 function initTable(){
                     $.ajax({
@@ -459,7 +459,7 @@
                             $(".modal-footer button").html('Refresh Page \
                             <i class="fas fa-redo-alt"></i>');
                             $(".modal-footer button").removeClass('btn-success').addClass('btn-info');
-                            $(".modal-footer button").attr('onclick',"location.href = "+location.href+"&brand=" + brandName);
+                            $(".modal-footer button").attr('onclick',"location.href = "+location.href+"?brand=" + brandName);
                             $("#myModalLabel").html("Error");
                             $(".modal-footer").removeAttr('style');
                             $("#loadingScreen").attr("style", "display:none");
@@ -626,6 +626,7 @@
                     success: function(data){
                         $(".modal").modal('show');
                         $(".modal-body").html(data);
+                        $(".modal-footer button").attr('onclick',"location.href = "+location.href+"?brand=" + brandName);
                     }
                 });
 
