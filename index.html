@@ -107,7 +107,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
         <script src="assets/js/theme.js"></script>
         <script>
-        host = "http://ec2-35-175-124-117.compute-1.amazonaws.com:2626/";
+        host = "http://ec2-52-3-233-164.compute-1.amazonaws.com:2626/";
 
         $("#startButton").click(function (){
             $(".modal").modal('show');
@@ -142,8 +142,9 @@
                     $(".modal-footer button").html('Refresh Page \
                     <i class="fas fa-redo-alt"></i>');
                     $(".modal-footer button").removeClass('btn-success').addClass('btn-info');
-                    $(".modal-footer button").attr('onclick',"window.location.href='index.html'");
-                    $("#myModalLabel").html("Error");
+                    $(".modal-footer button").attr('onclick',"$(\"#myModalLabel\").removeClass(\"text-danger\");window.location.href='index.html'");
+                    $("#myModalLabel").addClass("text-danger");
+                    $("#myModalLabel").html("ERROR <i class=\"fa fa-exclamation-triangle\"></i>");
                     $(".modal-footer").removeAttr('style');
                     $("#loadingScreen").attr("style", "display:none");
                 }

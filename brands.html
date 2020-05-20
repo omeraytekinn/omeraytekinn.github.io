@@ -234,7 +234,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
         <script src="assets/js/theme.js"></script>
         <script>
-        host = "http://ec2-35-175-124-117.compute-1.amazonaws.com:2626/";
+        host = "http://ec2-52-3-233-164.compute-1.amazonaws.com:2626/";
         $("#loadingScreen").attr("style", "display:none");
         
         function initTable(){
@@ -324,6 +324,9 @@
                     $(".modal").modal('show');
                     $(".modal-body").html(msg);
                     $("#loadingScreen").attr("style", "display:none");
+                    $(".modal-footer button").html('Refresh Page \
+                    <i class="fas fa-redo-alt"></i>');
+                    $(".modal-footer button").removeClass('btn-success').addClass('btn-info');
                 }
               });
         }

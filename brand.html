@@ -349,7 +349,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
         <script src="assets/js/theme.js"></script>
         <script>
-            host = "http://ec2-35-175-124-117.compute-1.amazonaws.com:2626/";
+            host = "http://ec2-52-3-233-164.compute-1.amazonaws.com:2626/";
 
             $.urlParam = function (name) {
                 var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -455,8 +455,11 @@
                             $(".modal-footer button").html('Refresh Page \
                             <i class="fas fa-redo-alt"></i>');
                             $(".modal-footer button").removeClass('btn-success').addClass('btn-info');
-                            $(".modal-footer button").attr('onclick',"location.reload()");
-                            $("#myModalLabel").html("Error");
+                            $(".modal-footer button").attr('onclick',"location.reload();$(\"#myModalLabel\").removeClass(\"text-danger\");");
+
+                
+                            $("#myModalLabel").html("ERROR <i class=\"fa fa-exclamation-triangle\"></i>");
+                            $("#myModalLabel").addClass("text-danger");
                             $(".modal-footer").removeAttr('style');
                             $("#loadingScreen").attr("style", "display:none");
                         }
@@ -470,7 +473,6 @@
                     success: function(data){
                         console.log(data)   
                         $("#loadingScreen").attr("style", "display:none");
-                        stdDev = data['stdDev'];
                         if(data == null )
                             ;
                         else {
@@ -514,7 +516,58 @@
                                 $("#colMedian button, #colMedian button").removeClass("btn-warning").addClass("btn-info");
                             }
                         }
-                    }
+                    },
+                    error: function(e){
+                        data = JSON.parse(e.responseText.replace(/\bNaN\b/g, "null"));
+                        console.log(data);
+                        console.log(data)   
+                        $("#loadingScreen").attr("style", "display:none");
+                        if(data == null )
+                            ;
+                        else {
+                            mostExpProd = data['maxName'] + "<br>" + data['maxPrice'] + "₺";
+                            $("#colMax span").html(mostExpProd)
+                            cheapestProd = data['minName'] + "<br>" + data['minPrice'] + "₺";
+                            $("#colMin span").html(cheapestProd)
+                            stdDev = data['stdDev'];
+                            $("#colStd span").html(stdDev)
+                            median = data['median'];
+                            $("#colMedian span").html(median)
+        
+        
+                            if(data['maxName'] == null || data['maxPrice'] == null || data['minName'] == null || data['minPrice'] == null){
+                                $("#colMax .st-info, #colMin .st-info").attr("hidden","");
+                                $("#colMax button, #colMin button").removeAttr("hidden");
+                                $("#colMax button, #colMin button").removeClass("btn-info").addClass("btn-warning");
+                            } else {
+                                $("#colMax .st-info, #colMin .st-info").removeAttr("hidden");
+                                $("#colMax button, #colMin button").html("Recalculate");
+                                $("#colMax button, #colMin button").removeClass("btn-warning").addClass("btn-info");
+                            }
+                            if(data['stdDev'] == null){
+                                $("#colStd .st-info").html("<h5>Couldn't Calculated</h5>");
+                                $("#colStd .st-info").removeAttr("hidden");
+                                //$("#colStd button").attr("hidden","");
+                                $("#colStd button, #colMin button").html("Recalculate");
+                                $("#colStd button, #colStd button").removeClass("btn-warning").addClass("btn-info")
+                            } else{
+                                $("#colStd .st-info").removeAttr("hidden");
+                                //$("#colStd button").attr("hidden","");
+                                $("#colStd button, #colMin button").html("Recalculate");
+                                $("#colStd button, #colStd button").removeClass("btn-warning").addClass("btn-info")
+                            }
+                            if(data['median'] == null){
+                                $("#colMedian .st-info").attr("hidden");
+                                //$("#colMedian button").attr("hidden","");
+                                $("#colMedian button, #colMedian button").removeClass("btn-info").addClass("btn-warning");
+                            } else {
+                                $("#colMedian .st-info").removeAttr("hidden");
+                                //$("#colMedian button").attr("hidden","");
+                                $("#colMedian button, #colMedian button").html("Recalculate");
+                                $("#colMedian button, #colMedian button").removeClass("btn-warning").addClass("btn-info");
+                            }
+                        }
+                    } 
                 })
             }
 
@@ -608,7 +661,7 @@
                     script = "minmax";
                 } 
                 if($(this).attr("id") == "btnStd"){
-                    script = "std";
+                    script = "stdev";
                 } 
                 if($(this).attr("id") == "btnMedian"){
                     script = "median";
@@ -653,6 +706,7 @@
             $("#btnContinue").click(function(){
                 
                 $("#dataTable thead").removeAttr("hidden");
+
                 initTable();
                 $("#loadingBar button").attr("hidden","");
                 $("#loadingBar").attr("style", "display:none");
