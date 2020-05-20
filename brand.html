@@ -459,7 +459,7 @@
                             $(".modal-footer button").html('Refresh Page \
                             <i class="fas fa-redo-alt"></i>');
                             $(".modal-footer button").removeClass('btn-success').addClass('btn-info');
-                            $(".modal-footer button").attr('onclick',"location.reload();");
+                            $(".modal-footer button").attr('onclick',"location.href = "+location.href+"&brand=" + brandName);
                             $("#myModalLabel").html("Error");
                             $(".modal-footer").removeAttr('style');
                             $("#loadingScreen").attr("style", "display:none");
