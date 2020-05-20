@@ -11,10 +11,6 @@
         .table-hover {
             cursor: default;
         }
-
-        .table-hover tbody tr {
-            cursor: pointer;
-        }
         body.modal-open #wrapper{
             -webkit-filter: blur(1px);
             -moz-filter: blur(1px);
@@ -459,7 +455,7 @@
                             $(".modal-footer button").html('Refresh Page \
                             <i class="fas fa-redo-alt"></i>');
                             $(".modal-footer button").removeClass('btn-success').addClass('btn-info');
-                            $(".modal-footer button").attr('onclick',"location.href = "+location.href+"?brand=" + brandName);
+                            $(".modal-footer button").attr('onclick',"location.reload()");
                             $("#myModalLabel").html("Error");
                             $(".modal-footer").removeAttr('style');
                             $("#loadingScreen").attr("style", "display:none");
@@ -626,7 +622,7 @@
                     success: function(data){
                         $(".modal").modal('show');
                         $(".modal-body").html(data);
-                        $(".modal-footer button").attr('onclick',"location.href = "+location.href+"?brand=" + brandName);
+                        $(".modal-footer button").attr('onclick',"location.reload()");
                     }
                 });
 
