@@ -87,14 +87,14 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <a
+                        <button
                             type="button"
-                            href="brands.html"
+                            onclick="window.location.href='brands.html'"
                             style="color: #fff;"
                             class="btn btn-success"
                         >Continue
                             <i class="fas fa-arrow-right"></i>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -139,10 +139,10 @@
                     console.log(msg);
                     $(".modal").modal('show');
                     $(".modal-body").html(msg);
-                    $(".modal-footer a").html('Refresh Page \
+                    $(".modal-footer button").html('Refresh Page \
                     <i class="fas fa-redo-alt"></i>');
-                    $(".modal-footer a").removeClass('btn-success').addClass('btn-info');
-                    $(".modal-footer a").attr('href',"index.html");
+                    $(".modal-footer button").removeClass('btn-success').addClass('btn-info');
+                    $(".modal-footer button").attr('onclick',"window.location.href='index.html'");
                     $("#myModalLabel").html("Error");
                     $(".modal-footer").removeAttr('style');
                     $("#loadingScreen").attr("style", "display:none");
