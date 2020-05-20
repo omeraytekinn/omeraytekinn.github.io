@@ -11,29 +11,6 @@
         .table-hover {
             cursor: default;
         }
-
-        .table-hover tbody tr {
-            cursor: pointer;
-        }
-        body.modal-open #wrapper{
-            -webkit-filter: blur(1px);
-            -moz-filter: blur(1px);
-            -o-filter: blur(1px);
-            -ms-filter: blur(1px);
-            filter: blur(5px);
-        }
-        .nav-item a{
-            color:#d4daeb !important;
-            font-size: large;
-        }
-        .nav-item a.active{
-            color: #fff !important;
-        }
-        
-        .nav-item .dropdown-menu a{
-            color: #555 !important;
-        }
-        
         </style>
     </head>
     <body id="page-top">
@@ -51,10 +28,9 @@
         <div id="wrapper">
             <div class="d-flex flex-column" id="content-wrapper">
                 <div id="content">
-                    <nav class="navbar navbar-light navbar-expand-md" style="padding-top: 10px;padding-bottom: 10px;margin-bottom: 20px;background: linear-gradient(to right, #4e73df, #637ecf);">
+                    <nav class="navbar navbar-light navbar-expand-md" style="padding-top: 10px;padding-bottom: 10px;margin-bottom: 20px;background: linear-gradient(to right, #00b4db, #0083b0);">
                         <div class="container-fluid">
-                            <a class="navbar-brand" href="brands.html" style="color: #FFFF00;">
-                            <img src="assets/img/hadoop2.png" class="mr-2"  height="50" alt="">YTUExpress</a>
+                            <a class="navbar-brand" href="#" style="color: rgb(255,255,255);">YTUSepeti</a>
                             <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
                                 <span class="sr-only">
                                     Toggle
@@ -65,22 +41,13 @@
                             <div class="collapse navbar-collapse" id="navcol-1">
                                 <ul class="nav navbar-nav">
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link active" href="brands.html">Brands</a>
-                                    </li>
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                         Functions
-                                        </a>
-                                        <div class="dropdown-menu" style="width: 200px;"  aria-labelledby="navbarDropdownMenuLink">
-                                        <a class="dropdown-item" href="functions.html?name=average">Average</a>
-                                        <a class="dropdown-item" href="functions.html?name=count">Count</a>
-                                        <a class="dropdown-item" href="functions.html?name=median">Median</a>
-                                        <a class="dropdown-item" href="functions.html?name=minmax">Min Max</a>
-                                        <a class="dropdown-item" href="functions.html?name=stdev">Standart Deviation</a>
-                                        </div>
+                                        <a class="nav-link active" href="#">Categories</a>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <a class="nav-link" href="about.html">About</a>
+                                        <a class="nav-link" href="#">Products</a>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link" href="#">Others</a>
                                     </li>
                                 </ul>
                             </div>
@@ -111,10 +78,10 @@
                                                                 <span class="sr-only">Loading...</span>
                                                             </div>
                                                             <div class="text-center st-info" style="padding: 10px;" hidden>
-                                                                <span style="font-size: 16pt;"></span>
+                                                                <span style="font-size: 16pt;">Product 1 (12332₺)</span>
                                                             </div>
                                                             <button
-                                                                class="btn stActionBtn mt-lg-4"
+                                                                class="btn btn-secondary stActionBtn"
                                                                 id="btnMinmax"
                                                                 style="font-size: 16pt;"
                                                                 type="button"
@@ -132,10 +99,10 @@
                                                                 <span class="sr-only">Loading...</span>
                                                             </div>
                                                             <div class="text-center st-info" style="padding: 10px;" hidden>
-                                                                <span style="font-size: 16pt;"></span>
+                                                                <span style="font-size: 16pt;">Product 1 (12332₺)</span>
                                                             </div>
                                                             <button
-                                                                class="btn stActionBtn mt-lg-4"
+                                                                class="btn btn-warning stActionBtn"
                                                                 id="btnMinmax"
                                                                 style="font-size: 16pt;"
                                                                 type="button"
@@ -153,10 +120,10 @@
                                                                 <span class="sr-only">Loading...</span>
                                                             </div>
                                                             <div class="text-center st-info" style="padding: 10px;" hidden>
-                                                                <span style="font-size: 16pt;"></span>
+                                                                <span style="font-size: 16pt;">Product 1 (12332₺)</span>
                                                             </div>
                                                             <button
-                                                                class="btn stActionBtn mt-lg-4"
+                                                                class="btn btn-warning stActionBtn"
                                                                 id="btnMedian"
                                                                 style="font-size: 16pt;"
                                                                 type="button"
@@ -174,10 +141,10 @@
                                                                 <span class="sr-only">Loading...</span>
                                                             </div>
                                                             <div class="text-center st-info" style="padding: 10px;" hidden>
-                                                                <span style="font-size: 16pt;"></span>
+                                                                <span style="font-size: 16pt;">Product 1 (12332₺)</span>
                                                             </div>
                                                             <button
-                                                                class="btn stActionBtn mt-lg-4"
+                                                                class="btn btn-warning stActionBtn"
                                                                 id="btnStd"
                                                                 style="font-size: 16pt;"
                                                                 type="button"
@@ -281,7 +248,7 @@
                                                             aria-valuemax="100"
                                                         ></div>
                                                     </div>
-                                                    <button class="btn btn-success float-right mb-4" id="btnContinue" hidden>
+                                                    <button class="btn btn-success float-right mb-4 actionBtn" id="btnContinue" hidden>
                                                         Continue
                                                         <i class="fas fa-arrow-right"></i>
                                                     </button>
@@ -377,10 +344,9 @@
                     <div class="modal-footer">
                         <a
                             type="button"
-                            href="#"
+                            href="brands.html"
                             style="color: #fff;"
                             class="btn btn-success"
-                            id="st-continue"
                         >
                             Continue
                             <i class="fas fa-arrow-right"></i>
@@ -397,7 +363,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
         <script src="assets/js/theme.js"></script>
         <script>
-            host = "http://ec2-35-175-124-117.compute-1.amazonaws.com:2626/";
+            host = "http://0.0.0.0:2626/";
 
 
             $.urlParam = function (name) {
@@ -405,7 +371,7 @@
                 return results[1] || 0;
             }
             var brandName = $.urlParam('brand');
-            $("#brandName").html("Brand: " + brandName.toUpperCase());
+            $("#brandName").html(brandName.toUpperCase());
     
             function initTable(){
                 $.ajax({
@@ -418,39 +384,20 @@
                             numPages = data.productCount / 10;
                             changeTable(data, 1)
                             createPagination(numPages)
-
-
                             $(".page-nums").click(function(){
-
-                                $("#loadingBar").removeAttr("style");
-                                $("#dataTable thead").attr("hidden","");
-                                $("#footy").attr("hidden","");
-                                $("#brandsBody").html("<h3 style='margin-left:10px;'>Waiting Data...</h3>");
-
                                 pageNo = $(this).html();
                                 nextPrev(pageNo, data.productCount)
                                 $.ajax({
                                     url: host + "get-products/"+brandName+"/"+pageNo,
                                     success: function(data){
-                                        $("#loadingBar button").removeAttr("hidden");
-                                        $("#loadingBar .progress").attr("hidden","");
                                         if(data){
                                             changeTable(data, pageNo);
                                             changePagination(parseInt(pageNo) + 1);
-                                        } else {
-                                            $("#brandsBody").html("<h2>No Data Found</h2>");
                                         }
                                     }
                                 });
                             });  
-
                             $(".next,.prev").click(function(){
-                                
-                                $("#loadingBar").removeAttr("style");
-                                $("#dataTable thead").attr("hidden","");
-                                $("#footy").attr("hidden","");
-                                $("#brandsBody").html("<h3 style='margin-left:10px;'>Waiting Data...</h3>");
-
                                 if($(this).hasClass('next'))
                                     pageNo = parseInt($(this).parent().attr("active")) + 1;
                                 else
@@ -459,14 +406,10 @@
                                 $.ajax({
                                     url: host + "get-products/"+brandName+"/"+pageNo,
                                     success: function(data){
-                                        $("#loadingBar button").removeAttr("hidden");
-                                        $("#loadingBar .progress").attr("hidden","");
                                         if(data){
                                             changeTable(data, pageNo);
                                             changePagination(pageNo+1);
                                             nextPrev(pageNo, data.productCount)
-                                        } else {
-                                            $("#brandsBody").html("<h2>No Data Found</h2>");
                                         }
                                     }
                                 });
@@ -501,32 +444,24 @@
     
                         if(data['maxName'] == null || data['maxPrice'] == null || data['minName'] == null || data['minPrice'] == null){
                             $("#colMax .st-info, #colMin .st-info").attr("hidden","");
-                            $("#colMax button, #colMin button").removeAttr("hidden");
-                            $("#colMax button, #colMin button").removeClass("btn-info").addClass("btn-warning");
+                            //$("#colMax button, #colMin button").removeAttr("hidden");
                         } else {
                             $("#colMax .st-info, #colMin .st-info").removeAttr("hidden");
-                            $("#colMax button, #colMin button").html("Recalculate");
-                            $("#colMax button, #colMin button").removeClass("btn-warning").addClass("btn-info");
+                            //$("#colMax button, #colMin button").attr("hidden","");
                         }
                         if(data['stdDev'] == null){
-                            $("#colStd .st-info").attr("hidden");
+                            $("#colStd .st-info").removeAttr("hidden");
                             //$("#colStd button").attr("hidden","");
-                            $("#colStd button, #colStd button").removeClass("btn-info").addClass("btn-warning");
                         } else{
                             $("#colStd .st-info").removeAttr("hidden");
                             //$("#colStd button").attr("hidden","");
-                            $("#colStd button, #colMin button").html("Recalculate");
-                            $("#colStd button, #colStd button").removeClass("btn-warning").addClass("btn-info");
                         }
                         if(data['median'] == null){
-                            $("#colMedian .st-info").attr("hidden");
+                            $("#colMedian .st-info").removeAttr("hidden");
                             //$("#colMedian button").attr("hidden","");
-                            $("#colMedian button, #colMedian button").removeClass("btn-info").addClass("btn-warning");
                         } else {
                             $("#colMedian .st-info").removeAttr("hidden");
                             //$("#colMedian button").attr("hidden","");
-                            $("#colMedian button, #colMedian button").html("Recalculate");
-                            $("#colMedian button, #colMedian button").removeClass("btn-warning").addClass("btn-info");
                         }
                     }
                 }
@@ -619,15 +554,84 @@
 
 
         $(".stActionBtn").click(function () {
-            if($(this).attr("id") == "btnMinmax"){
+            /*
+            if($(this).attr("id") == "findCount"){
+                script = "calc-count";
+                $("#brandsBody").html("Calculating...");
+                $("#loadingBar").removeAttr("style");
+                $("#dataTable thead").attr("hidden","");
+                $("#footy").attr("hidden","");
+                $.ajax({
+                    url: host + "start/" + script,
+                    success: function(data){
+                        $("#brandsBody").html("<h2>Results</h2>"+data);
+                        $("#loadingBar button").removeAttr("hidden");
+                        $("#loadingBar .progress").attr("hidden","");
+                    }
+                });
+            } else if($(this).attr("id") == "btnContinue"){
+                $("#dataTable thead").removeAttr("hidden");
+                initTable();
+                $("#loadingBar button").attr("hidden","");
+                $("#loadingBar").attr("style", "display:none");
+                $("#footy").removeAttr("hidden");
+                
+            } else if($(this).attr("id") == "btnMinmax"){
+                $("#colMax div, #colMin div").attr("hidden","");
+                $("#colMax button, #colMin button").removeAttr("hidden");
                 script = "calc-minmax";
-            } 
-            if($(this).attr("id") == "btnStd"){
+                $.ajax({
+                    url: host + "start/" + script,
+                    success: function(data){
+                        $("#colMax div, #colMin div").attr("hidden","");
+                        $("#colMax button, #colMin button").removeAttr("hidden");
+
+                        $("#brandsBody").html("<h2>Results</h2>"+data);
+                        $("#loadingBar button").removeAttr("hidden");
+                        $("#loadingBar .progress").attr("hidden","");
+                    }
+                });
+            }
+            else if($(this).attr("id") == "btnStd"){
+                $.ajax({
+                    url: host + "start/" + script,
+                    success: function(data){
+                        $("#brandsBody").html("<h2>Results</h2>"+data);
+                        $("#loadingBar button").removeAttr("hidden");
+                        $("#loadingBar .progress").attr("hidden","");
+                    }
+                });
                 script = "calc-std";
-            } 
-            if($(this).attr("id") == "btnMedian"){
+            }
+            else if($(this).attr("id") == "btnMedian"){
+                    script = "calc-median";
+                    $.ajax({
+                        url: host + "start/" + script,
+                        success: function(data){
+                            $("#brandsBody").html("<h2>Results</h2>"+data);
+                            $("#loadingBar button").removeAttr("hidden");
+                            $("#loadingBar .progress").attr("hidden","");
+                        }
+                    });
+            }
+
+
+
+            else if($(this).attr("id") == "btnMedian"){
                 script = "calc-median";
-            } 
+            }
+            $.ajax({
+                url: host + "start/" + script,
+                success: function(data){
+                    $("#brandsBody").html("<h2>Results</h2>"+data);
+                    $("#loadingBar button").removeAttr("hidden");
+                    $("#loadingBar .progress").attr("hidden","");
+                }
+            });
+
+
+            $(".modal-body").html(data);
+            $(".modal-footer").removeAttr('style');*/
             $(this).parent().children(".st-info").attr("hidden","");
             $(this).parent().children(".spinner-border").removeAttr("hidden");
             $(this).parent().children("button").attr("hidden","");
@@ -636,42 +640,13 @@
                 url: host + "start/" + script,
                 success: function(data){
                     $(".modal").modal('show');
+                    $(".modal-body").html("data");
                     $(".modal-body").html(data);
+                    $(".modal-footer").removeAttr('style');
                 }
             });
 
         });
-
-
-        $(".actionBtn").click(function () {
-            $("#brandsBody").html("Calculating...");
-            $("#loadingBar").removeAttr("style");
-            $("#dataTable thead").attr("hidden","");
-            $("#footy").attr("hidden","");
-            $.ajax({
-                url: host + "start/calc-count",
-                success: function(data){
-                    $("#brandsBody").html("<h2>Results</h2>"+data);
-                    $("#loadingBar button").removeAttr("hidden");
-                    $("#loadingBar .progress").attr("hidden","");
-                }
-            });
-
-        });
-
-
-        $("#st-continue").click(function(){
-            location.reload();
-        }); 
-
-        $("#btnContinue").click(function(){
-            
-            $("#dataTable thead").removeAttr("hidden");
-            initTable();
-            $("#loadingBar button").attr("hidden","");
-            $("#loadingBar").attr("style", "display:none");
-            $("#footy").removeAttr("hidden");
-        }); 
         </script>
     </body>
 </html>
