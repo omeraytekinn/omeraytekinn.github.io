@@ -34,6 +34,7 @@
             color: #555 !important;
         }
         
+        
         </style>
     </head>
     <body id="page-top">
@@ -86,7 +87,7 @@
                             </div>
                         </div>
                     </nav>
-                    <div class="container-fluid">
+                    <div class="container-fluid" id="main-content">
                         <h3 class="text-dark mb-4" id="brandName" style="font-size: 24pt;">Brand1</h3>
                         <div class="row mb-3">
                             <div class="col-lg-8 col-lg-12">
@@ -216,57 +217,8 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody id="brandsBody">
-                                                            <tr>
-                                                                <td>Product 2</td>
-                                                                <td>
-                                                                    Brand 2
-                                                                    <br>
-                                                                </td>
-                                                                <td>400</td>
-                                                                <td>
-                                                                    3.14
-                                                                    <br>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Product 3</td>
-                                                                <td>
-                                                                    Brand 3
-                                                                    <br>
-                                                                </td>
-                                                                <td>500</td>
-                                                                <td>
-                                                                    3.14
-                                                                    <br>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Product 4</td>
-                                                                <td>
-                                                                    Brand 4
-                                                                    <br>
-                                                                </td>
-                                                                <td>600</td>
-                                                                <td>
-                                                                    3.14
-                                                                    <br>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Product 5</td>
-                                                                <td>
-                                                                    Brand 5
-                                                                    <br>
-                                                                </td>
-                                                                <td>700</td>
-                                                                <td>
-                                                                    3.14
-                                                                    <br>
-                                                                </td>
-                                                            </tr>
                                                         </tbody>
                                                         <tfoot>
-                                                            <tr></tr>
                                                         </tfoot>
                                                     </table>
                                                 </div>
@@ -399,279 +351,312 @@
         <script>
             host = "http://ec2-35-175-124-117.compute-1.amazonaws.com:2626/";
 
-
             $.urlParam = function (name) {
                 var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-                return results[1] || 0;
+                if(results)
+                    return results[1] || 0;
+                return null;
             }
             var brandName = $.urlParam('brand');
-            $("#brandName").html("Brand: " + brandName.toUpperCase());
-    
-            function initTable(){
-                $.ajax({
-                    url: host + "get-products/"+brandName,
-                    success: function(data){
-                        console.log(data)
-                        if(data == null)
-                            window.location = "brand.html?brand="+brandName;
-                        else{
-                            numPages = data.productCount / 10;
-                            changeTable(data, 1)
-                            createPagination(numPages)
-
-
-                            $(".page-nums").click(function(){
-
-                                $("#loadingBar").removeAttr("style");
-                                $("#dataTable thead").attr("hidden","");
-                                $("#footy").attr("hidden","");
-                                $("#brandsBody").html("<h3 style='margin-left:10px;'>Waiting Data...</h3>");
-
-                                pageNo = $(this).html();
-                                nextPrev(pageNo, data.productCount)
-                                $.ajax({
-                                    url: host + "get-products/"+brandName+"/"+pageNo,
-                                    success: function(data){
-                                        $("#loadingBar button").removeAttr("hidden");
-                                        $("#loadingBar .progress").attr("hidden","");
-                                        if(data){
-                                            changeTable(data, pageNo);
-                                            changePagination(parseInt(pageNo) + 1);
-                                        } else {
-                                            $("#brandsBody").html("<h2>No Data Found</h2>");
-                                        }
-                                    }
-                                });
-                            });  
-
-                            $(".next,.prev").click(function(){
-                                
-                                $("#loadingBar").removeAttr("style");
-                                $("#dataTable thead").attr("hidden","");
-                                $("#footy").attr("hidden","");
-                                $("#brandsBody").html("<h3 style='margin-left:10px;'>Waiting Data...</h3>");
-
-                                if($(this).hasClass('next'))
-                                    pageNo = parseInt($(this).parent().attr("active")) + 1;
-                                else
-                                    pageNo = parseInt($(this).parent().attr("active")) - 1;
+            if(brandName == null){
+                $("#main-content").html("<h3>You have to give 'brand' parameter...</h3>");
+                $("#loadingScreen").attr("style", "display:none");
+            }
+            else {
         
-                                $.ajax({
-                                    url: host + "get-products/"+brandName+"/"+pageNo,
-                                    success: function(data){
-                                        $("#loadingBar button").removeAttr("hidden");
-                                        $("#loadingBar .progress").attr("hidden","");
-                                        if(data){
-                                            changeTable(data, pageNo);
-                                            changePagination(pageNo+1);
-                                            nextPrev(pageNo, data.productCount)
-                                        } else {
-                                            $("#brandsBody").html("<h2>No Data Found</h2>");
+                function initTable(){
+                    $.ajax({
+                        url: host + "get-products/"+brandName,
+                        success: function(data){
+                            console.log(data)
+                            if(data == null)
+                                window.location = "brand.html?brand="+brandName;
+                            else{
+                                numPages = data.productCount / 10;
+                                changeTable(data, 1)
+                                createPagination(numPages)
+
+
+                                $(".page-nums").click(function(){
+
+                                    $("#loadingBar").removeAttr("style");
+                                    $("#dataTable thead").attr("hidden","");
+                                    $("#footy").attr("hidden","");
+                                    $("#brandsBody").html("<h3 style='margin-left:10px;'>Waiting Data...</h3>");
+
+                                    pageNo = $(this).html();
+                                    nextPrev(pageNo, data.productCount)
+                                    $.ajax({
+                                        url: host + "get-products/"+brandName+"/"+pageNo,
+                                        success: function(data){
+                                            $("#loadingBar button").removeAttr("hidden");
+                                            $("#loadingBar .progress").attr("hidden","");
+                                            if(data){
+                                                changeTable(data, pageNo);
+                                                changePagination(parseInt(pageNo) + 1);
+                                            } else {
+                                                $("#brandsBody").html("<h2>No Data Found</h2>");
+                                            }
                                         }
-                                    }
-                                });
-                            });  
-                        }
-        
-                        $("#loadingScreen").attr("style", "display:none");
-                    }
-                  });
-            }
-    
+                                    });
+                                });  
 
-        function initStatistics(){
-            $.ajax({
-                url: host + "get-brand/" + brandName,
-                success: function(data){
-                    console.log(data)   
-                    $("#loadingScreen").attr("style", "display:none");
-                    stdDev = data['stdDev'];
-                    if(data == null )
-                        ;
-                    else {
-                        mostExpProd = data['maxName'] + "<br>" + data['maxPrice'] + "₺";
-                        $("#colMax span").html(mostExpProd)
-                        cheapestProd = data['minName'] + "<br>" + data['minPrice'] + "₺";
-                        $("#colMin span").html(cheapestProd)
-                        stdDev = data['stdDev'];
-                        $("#colStd span").html(stdDev)
-                        median = data['median'];
-                        $("#colMedian span").html(median)
-    
-    
-                        if(data['maxName'] == null || data['maxPrice'] == null || data['minName'] == null || data['minPrice'] == null){
-                            $("#colMax .st-info, #colMin .st-info").attr("hidden","");
-                            $("#colMax button, #colMin button").removeAttr("hidden");
-                            $("#colMax button, #colMin button").removeClass("btn-info").addClass("btn-warning");
-                        } else {
-                            $("#colMax .st-info, #colMin .st-info").removeAttr("hidden");
-                            $("#colMax button, #colMin button").html("Recalculate");
-                            $("#colMax button, #colMin button").removeClass("btn-warning").addClass("btn-info");
-                        }
-                        if(data['stdDev'] == null){
-                            $("#colStd .st-info").attr("hidden");
-                            //$("#colStd button").attr("hidden","");
-                            $("#colStd button, #colStd button").removeClass("btn-info").addClass("btn-warning");
-                        } else{
-                            $("#colStd .st-info").removeAttr("hidden");
-                            //$("#colStd button").attr("hidden","");
-                            $("#colStd button, #colMin button").html("Recalculate");
-                            $("#colStd button, #colStd button").removeClass("btn-warning").addClass("btn-info");
-                        }
-                        if(data['median'] == null){
-                            $("#colMedian .st-info").attr("hidden");
-                            //$("#colMedian button").attr("hidden","");
-                            $("#colMedian button, #colMedian button").removeClass("btn-info").addClass("btn-warning");
-                        } else {
-                            $("#colMedian .st-info").removeAttr("hidden");
-                            //$("#colMedian button").attr("hidden","");
-                            $("#colMedian button, #colMedian button").html("Recalculate");
-                            $("#colMedian button, #colMedian button").removeClass("btn-warning").addClass("btn-info");
-                        }
-                    }
-                }
-            })
-        }
+                                $(".next,.prev").click(function(){
+                                    
+                                    $("#loadingBar").removeAttr("style");
+                                    $("#dataTable thead").attr("hidden","");
+                                    $("#footy").attr("hidden","");
+                                    $("#brandsBody").html("<h3 style='margin-left:10px;'>Waiting Data...</h3>");
 
-
-        $(initTable);
-        $(initStatistics);
-
-
-
-
-
-        function changeTable(data, active){
-
-            html = "";
-            data.products.forEach(function(product){
-                html = html + "<tr>";
-                html = html + "<td>" + product[0] + "</td>" // Brand Name
-                totalViewing = product[2] == null ? "Not Calculated":product[2]
-                html = html + "<td>" + totalViewing+ "</td>" // Brand Name
-                html = html + "<td>" + product[1] + "₺</td>" // Brand Name
-                html = html + "</tr>";
-            });
-            $("#brandsBody").html(html);
-            $(".clickable-row").click(function () {
-                window.location = $(this).data("href");
-            });
-
-            // Info bar changed
-            showingFrom = (active-1)*10+1;
-            showingTo = showingFrom + data.products.length - 1;
-            $("#dataTable_info").html("Showing "+ showingFrom +" to " + showingTo);
-
-
-        }
-
-        function createPagination(numPages){
-            html = '<li class="page-item disabled">';
-            html = html + '<a class="page-link prev" href="#" aria-label="Previous">';
-            html = html + '<span aria-hidden="true">«</span>';
-            html = html + '</a>';
-            html = html + '</li>';
-            for(i=0;i<numPages;i++){
-                isactive = i==0?"active":""
-                html = html + '<li class="page-item '+ isactive + '"> \
-                    <a class="page-link page-nums" href="#">'+ (i+1) +'</a> \
-                    </li>';
-            }
-            html = html + '<li class="page-item" active="1">';
-            html = html + '<a class="page-link next" href="#" aria-label="Next">';
-            html = html + '<span aria-hidden="true">»</span>';
-            html = html + '</a>';
-            html = html + '</li>';
-            $("#ul-pagination").html(html);
-        }
-
-        function changePagination(page){
-            $(".page-item").removeClass("active");
-            $(".pagination .page-item:nth-child("+page+")" ).addClass("active")
-            }
-            function nextPrev(currentPage, numPage){
-            $(".prev, .next").parent().attr("active",currentPage);
-            console.log("c,n: "+currentPage+"-"+ numPage )
-            if(currentPage*10 >= numPage){
-            $(".next").parent().addClass("disabled","");
-            } else if (currentPage == 1) {
-            $(".prev").parent().addClass("disabled","");
-            } else {
-            $(".prev").parent().removeClass("disabled");
-            $(".next").parent().removeClass("disabled");
-            }
-        }
-
-        function changeTableValues(data){
-            html = "";
-            data.products.forEach(function(product){
-                html = html + "<tr>";
-                html = html + "<td>" + product[0] + "</td>" // Brand Name
-                totalViewing = product[2] == null ? "Not Calculated":product[2]
-                html = html + "<td>" + totalViewing+ "</td>" // Brand Name
-                html = html + "<td>" + product[1] + "₺</td>" // Brand Name
-                html = html + "</tr>";
-            });
-        }
-
-
-
-
-
-        $(".stActionBtn").click(function () {
-            if($(this).attr("id") == "btnMinmax"){
-                script = "calc-minmax";
-            } 
-            if($(this).attr("id") == "btnStd"){
-                script = "calc-std";
-            } 
-            if($(this).attr("id") == "btnMedian"){
-                script = "calc-median";
-            } 
-            $(this).parent().children(".st-info").attr("hidden","");
-            $(this).parent().children(".spinner-border").removeAttr("hidden");
-            $(this).parent().children("button").attr("hidden","");
-
-            $.ajax({
-                url: host + "start/" + script,
-                success: function(data){
-                    $(".modal").modal('show');
-                    $(".modal-body").html(data);
-                }
-            });
-
-        });
-
-
-        $(".actionBtn").click(function () {
-            $("#brandsBody").html("Calculating...");
-            $("#loadingBar").removeAttr("style");
-            $("#dataTable thead").attr("hidden","");
-            $("#footy").attr("hidden","");
-            $.ajax({
-                url: host + "start/calc-count",
-                success: function(data){
-                    $("#brandsBody").html("<h2>Results</h2>"+data);
-                    $("#loadingBar button").removeAttr("hidden");
-                    $("#loadingBar .progress").attr("hidden","");
-                }
-            });
-
-        });
-
-
-        $("#st-continue").click(function(){
-            location.reload();
-        }); 
-
-        $("#btnContinue").click(function(){
+                                    if($(this).hasClass('next'))
+                                        pageNo = parseInt($(this).parent().attr("active")) + 1;
+                                    else
+                                        pageNo = parseInt($(this).parent().attr("active")) - 1;
             
-            $("#dataTable thead").removeAttr("hidden");
-            initTable();
-            $("#loadingBar button").attr("hidden","");
-            $("#loadingBar").attr("style", "display:none");
-            $("#footy").removeAttr("hidden");
-        }); 
+                                    $.ajax({
+                                        url: host + "get-products/"+brandName+"/"+pageNo,
+                                        success: function(data){
+                                            $("#loadingBar button").removeAttr("hidden");
+                                            $("#loadingBar .progress").attr("hidden","");
+                                            if(data){
+                                                changeTable(data, pageNo);
+                                                changePagination(pageNo+1);
+                                                nextPrev(pageNo, data.productCount)
+                                            } else {
+                                                $("#brandsBody").html("<h2>No Data Found</h2>");
+                                            }
+                                        }
+                                    });
+                                });  
+                            }
+            
+                            $("#loadingScreen").attr("style", "display:none");
+                        },
+                        error: function(jqXHR, exception){
+                            var msg = '';
+                            if (jqXHR.status === 0) {
+                                msg = 'Connection couldn\'t established.';
+                            } else if (jqXHR.status == 404) {
+                                msg = 'Requested page not found.';
+                            } else if (jqXHR.status == 500) {
+                                msg = 'Internal Server Error.';
+                            } else if (exception === 'parsererror') {
+                                msg = 'Requested JSON parse failed.';
+                            } else if (exception === 'timeout') {
+                                msg = 'Time out error.';
+                            } else if (exception === 'abort') {
+                                msg = 'Ajax request aborted.';
+                            } else {
+                                msg = 'Uncaught Error: \n' + jqXHR.responseText;
+                            }
+                            $(".modal").modal('show');
+                            $(".modal-body").html(msg);
+                            $(".modal-footer a").html('Refresh Page \
+                            <i class="fas fa-redo-alt"></i>');
+                            $(".modal-footer a").removeClass('btn-success').addClass('btn-info');
+                            $(".modal-footer a").attr('href',"");
+                            $("#myModalLabel").html("Error");
+                            $(".modal-footer").removeAttr('style');
+                            $("#loadingScreen").attr("style", "display:none");
+                        }
+                    });
+                }
+        
+
+            function initStatistics(){
+                $.ajax({
+                    url: host + "get-brand/" + brandName,
+                    success: function(data){
+                        console.log(data)   
+                        $("#loadingScreen").attr("style", "display:none");
+                        stdDev = data['stdDev'];
+                        if(data == null )
+                            ;
+                        else {
+                            mostExpProd = data['maxName'] + "<br>" + data['maxPrice'] + "₺";
+                            $("#colMax span").html(mostExpProd)
+                            cheapestProd = data['minName'] + "<br>" + data['minPrice'] + "₺";
+                            $("#colMin span").html(cheapestProd)
+                            stdDev = data['stdDev'];
+                            $("#colStd span").html(stdDev)
+                            median = data['median'];
+                            $("#colMedian span").html(median)
+        
+        
+                            if(data['maxName'] == null || data['maxPrice'] == null || data['minName'] == null || data['minPrice'] == null){
+                                $("#colMax .st-info, #colMin .st-info").attr("hidden","");
+                                $("#colMax button, #colMin button").removeAttr("hidden");
+                                $("#colMax button, #colMin button").removeClass("btn-info").addClass("btn-warning");
+                            } else {
+                                $("#colMax .st-info, #colMin .st-info").removeAttr("hidden");
+                                $("#colMax button, #colMin button").html("Recalculate");
+                                $("#colMax button, #colMin button").removeClass("btn-warning").addClass("btn-info");
+                            }
+                            if(data['stdDev'] == null){
+                                $("#colStd .st-info").attr("hidden");
+                                //$("#colStd button").attr("hidden","");
+                                $("#colStd button, #colStd button").removeClass("btn-info").addClass("btn-warning");
+                            } else{
+                                $("#colStd .st-info").removeAttr("hidden");
+                                //$("#colStd button").attr("hidden","");
+                                $("#colStd button, #colMin button").html("Recalculate");
+                                $("#colStd button, #colStd button").removeClass("btn-warning").addClass("btn-info");
+                            }
+                            if(data['median'] == null){
+                                $("#colMedian .st-info").attr("hidden");
+                                //$("#colMedian button").attr("hidden","");
+                                $("#colMedian button, #colMedian button").removeClass("btn-info").addClass("btn-warning");
+                            } else {
+                                $("#colMedian .st-info").removeAttr("hidden");
+                                //$("#colMedian button").attr("hidden","");
+                                $("#colMedian button, #colMedian button").html("Recalculate");
+                                $("#colMedian button, #colMedian button").removeClass("btn-warning").addClass("btn-info");
+                            }
+                        }
+                    }
+                })
+            }
+
+
+            $(initTable);
+            $(initStatistics);
+
+
+
+
+
+            function changeTable(data, active){
+
+                html = "";
+                data.products.forEach(function(product){
+                    html = html + "<tr>";
+                    html = html + "<td>" + product[0] + "</td>" // Brand Name
+                    totalViewing = product[2] == null ? "Not Calculated":product[2]
+                    html = html + "<td>" + totalViewing+ "</td>" // Brand Name
+                    html = html + "<td>" + product[1] + "₺</td>" // Brand Name
+                    html = html + "</tr>";
+                });
+                $("#brandsBody").html(html);
+                $(".clickable-row").click(function () {
+                    window.location = $(this).data("href");
+                });
+
+                // Info bar changed
+                showingFrom = (active-1)*10+1;
+                showingTo = showingFrom + data.products.length - 1;
+                $("#dataTable_info").html("Showing "+ showingFrom +" to " + showingTo);
+
+
+            }
+
+            function createPagination(numPages){
+                html = '<li class="page-item disabled">';
+                html = html + '<a class="page-link prev" href="#" aria-label="Previous">';
+                html = html + '<span aria-hidden="true">«</span>';
+                html = html + '</a>';
+                html = html + '</li>';
+                for(i=0;i<numPages;i++){
+                    isactive = i==0?"active":""
+                    html = html + '<li class="page-item '+ isactive + '"> \
+                        <a class="page-link page-nums" href="#">'+ (i+1) +'</a> \
+                        </li>';
+                }
+                html = html + '<li class="page-item" active="1">';
+                html = html + '<a class="page-link next" href="#" aria-label="Next">';
+                html = html + '<span aria-hidden="true">»</span>';
+                html = html + '</a>';
+                html = html + '</li>';
+                $("#ul-pagination").html(html);
+            }
+
+            function changePagination(page){
+                $(".page-item").removeClass("active");
+                $(".pagination .page-item:nth-child("+page+")" ).addClass("active")
+                }
+                function nextPrev(currentPage, numPage){
+                $(".prev, .next").parent().attr("active",currentPage);
+                console.log("c,n: "+currentPage+"-"+ numPage )
+                if(currentPage*10 >= numPage){
+                $(".next").parent().addClass("disabled","");
+                } else if (currentPage == 1) {
+                $(".prev").parent().addClass("disabled","");
+                } else {
+                $(".prev").parent().removeClass("disabled");
+                $(".next").parent().removeClass("disabled");
+                }
+            }
+
+            function changeTableValues(data){
+                html = "";
+                data.products.forEach(function(product){
+                    html = html + "<tr>";
+                    html = html + "<td>" + product[0] + "</td>" // Brand Name
+                    totalViewing = product[2] == null ? "Not Calculated":product[2]
+                    html = html + "<td>" + totalViewing+ "</td>" // Brand Name
+                    html = html + "<td>" + product[1] + "₺</td>" // Brand Name
+                    html = html + "</tr>";
+                });
+            }
+
+
+
+
+
+            $(".stActionBtn").click(function () {
+                if($(this).attr("id") == "btnMinmax"){
+                    script = "calc-minmax";
+                } 
+                if($(this).attr("id") == "btnStd"){
+                    script = "calc-std";
+                } 
+                if($(this).attr("id") == "btnMedian"){
+                    script = "calc-median";
+                } 
+                $(this).parent().children(".st-info").attr("hidden","");
+                $(this).parent().children(".spinner-border").removeAttr("hidden");
+                $(this).parent().children("button").attr("hidden","");
+
+                $.ajax({
+                    url: host + "start/" + script,
+                    success: function(data){
+                        $(".modal").modal('show');
+                        $(".modal-body").html(data);
+                    }
+                });
+
+            });
+
+
+            $(".actionBtn").click(function () {
+                $("#brandsBody").html("Calculating...");
+                $("#loadingBar").removeAttr("style");
+                $("#dataTable thead").attr("hidden","");
+                $("#footy").attr("hidden","");
+                $.ajax({
+                    url: host + "start/calc-count",
+                    success: function(data){
+                        $("#brandsBody").html("<h2>Results</h2>"+data);
+                        $("#loadingBar button").removeAttr("hidden");
+                        $("#loadingBar .progress").attr("hidden","");
+                    }
+                });
+
+            });
+
+
+            $("#st-continue").click(function(){
+                location.reload();
+            }); 
+
+            $("#btnContinue").click(function(){
+                
+                $("#dataTable thead").removeAttr("hidden");
+                initTable();
+                $("#loadingBar button").attr("hidden","");
+                $("#loadingBar").attr("style", "display:none");
+                $("#footy").removeAttr("hidden");
+            }); 
+        }
         </script>
     </body>
 </html>

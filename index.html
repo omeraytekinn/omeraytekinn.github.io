@@ -13,6 +13,16 @@
             integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
             crossorigin="anonymous"
         >
+        <style>
+
+        body.modal-open #wrapper{
+            -webkit-filter: blur(1px);
+            -moz-filter: blur(1px);
+            -o-filter: blur(1px);
+            -ms-filter: blur(1px);
+            filter: blur(5px);
+        }
+        </style>
     </head>
     <body id="page-top">
         <div id="wrapper">
@@ -108,6 +118,34 @@
                     console.log(data);
                     $(".modal-body").html(data);
                     $(".modal-footer").removeAttr('style');
+                },
+                error: function(jqXHR, exception){
+                    var msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Connection couldn\'t established.';
+                    } else if (jqXHR.status == 404) {
+                        msg = 'Requested page not found.';
+                    } else if (jqXHR.status == 500) {
+                        msg = 'Internal Server Error.';
+                    } else if (exception === 'parsererror') {
+                        msg = 'Requested JSON parse failed.';
+                    } else if (exception === 'timeout') {
+                        msg = 'Time out error.';
+                    } else if (exception === 'abort') {
+                        msg = 'Ajax request aborted.';
+                    } else {
+                        msg = 'Uncaught Error: \n' + jqXHR.responseText;
+                    }
+                    console.log(msg);
+                    $(".modal").modal('show');
+                    $(".modal-body").html(msg);
+                    $(".modal-footer a").html('Refresh Page \
+                    <i class="fas fa-redo-alt"></i>');
+                    $(".modal-footer a").removeClass('btn-success').addClass('btn-info');
+                    $(".modal-footer a").attr('href',"index.html");
+                    $("#myModalLabel").html("Error");
+                    $(".modal-footer").removeAttr('style');
+                    $("#loadingScreen").attr("style", "display:none");
                 }
               });
         });
