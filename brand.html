@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-        <title>Profile - Brand</title>
+        <title>YTUExpress - Brand Page</title>
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
         <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
@@ -367,7 +367,7 @@
                 $("#loadingScreen").attr("style", "display:none");
             }
             else {
-                $("#brandName").html(brandName)
+                $("#brandName").html("Brand:" + brandName)
         
                 function initTable(){
                     $.ajax({
@@ -459,7 +459,7 @@
                             $(".modal-footer button").html('Refresh Page \
                             <i class="fas fa-redo-alt"></i>');
                             $(".modal-footer button").removeClass('btn-success').addClass('btn-info');
-                            $(".modal-footer button").attr('onclick',"window.location.href='index.html'");
+                            $(".modal-footer button").attr('onclick',"location.reload();");
                             $("#myModalLabel").html("Error");
                             $(".modal-footer").removeAttr('style');
                             $("#loadingScreen").attr("style", "display:none");
