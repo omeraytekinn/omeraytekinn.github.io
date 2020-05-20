@@ -604,13 +604,13 @@
 
             $(".stActionBtn").click(function () {
                 if($(this).attr("id") == "btnMinmax"){
-                    script = "calc-minmax";
+                    script = "minmax";
                 } 
                 if($(this).attr("id") == "btnStd"){
-                    script = "calc-std";
+                    script = "std";
                 } 
                 if($(this).attr("id") == "btnMedian"){
-                    script = "calc-median";
+                    script = "median";
                 } 
                 $(this).parent().children(".st-info").attr("hidden","");
                 $(this).parent().children(".spinner-border").removeAttr("hidden");
@@ -633,7 +633,7 @@
                 $("#dataTable thead").attr("hidden","");
                 $("#footy").attr("hidden","");
                 $.ajax({
-                    url: host + "start/calc-count",
+                    url: host + "start/count",
                     success: function(data){
                         $("#brandsBody").html("<h2>Results</h2>"+data);
                         $("#loadingBar button").removeAttr("hidden");
