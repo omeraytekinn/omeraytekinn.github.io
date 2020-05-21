@@ -96,15 +96,67 @@
                         </div>
                     </nav>
                     <div class="container-fluid">
-                        <h3 class="text-dark mb-4" style="font-size: 24pt;">All Brands</h3>
-                        <hr>
+                        <h3 class="text-dark mb-4" style="font-size: 24pt;">All Brands <hr></h3>
+                        <div class="row">
+
+                        </div>
                         <div class="row mb-3">
                             <div class="col-lg-8 col-lg-12">
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col col-12 mb-3">
                                         <div class="card shadow">
                                             <div class="card-header py-3" style="font-size: 16pt !important;">
                                                 <div class="row">
+                                                    <div class="col">
+                                                        <p class="text-primary m-0 font-weight-bold">Average Prices Of Brands</p>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="btn-toolbar float-right">
+                                                            <div class="col col-12">
+                                                                <button class="btn btn-primary" id="findMinMax" type="button">Calculate Average</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div
+                                                    class="col col-11 ml-1"
+                                                    id="canvasDiv"
+                                                    role="grid"
+                                                    aria-describedby="dataTable_info"
+                
+                                                >
+                                                </div>
+                                                <div class="col-md-12" id="loadingGraph" style="display: none;">
+                                                    <div class="progressGraph">
+                                                        <div
+                                                            class="progress-bar progress-bar-striped progress-bar-animated"
+                                                            role="progressbar"
+                                                            style="width: 100%"
+                                                            aria-valuenow="100"
+                                                            aria-valuemin="0"
+                                                            aria-valuemax="100"
+                                                        ></div>
+                                                    </div>
+                                                    <button class="btn btn-success float-right mb-4" id="btnContinue" hidden>Continue <i class="fas fa-arrow-right"></i></button>
+                                                    <br>
+                                                </div>
+                                                <div class="row">
+                                                    <div class=" col-11 ml-1">
+                                                        <p
+                                                            id="numBrands"
+                                                            role="status"
+                                                            aria-live="polite"
+                                                        ></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-12">
+                                        <div class="card shadow">
+                                            <div class="card-header py-3" style="font-size: 16pt !important;">
+                                                <div class="row mb-4">
                                                     <div class="col">
                                                         <p class="text-primary m-0 font-weight-bold">Brand List</p>
                                                     </div>
@@ -131,6 +183,7 @@
                                                                 <th>BrandName</th>
                                                                 <th>Min Pricing Product</th>
                                                                 <th>Max Pricing Product</th>
+                                                                <th>Median Price</th>
                                                                 <th>Standart Deviation</th>
                                                             </tr>
                                                         </thead>
@@ -198,7 +251,7 @@
         <!---------------------->
         <!-- Modal -->
         <div
-            class="modal fade"
+            class="modal fade mb-2"
             id="myModal"
             tabindex="-1"
             data-backdrop="static"
@@ -247,7 +300,8 @@
                         numPages = data.brandCount / 10;
                         changeTable(data, 1)
                         createPagination(numPages)
-
+                        avgData = data.average
+                        
                         $(".page-nums").click(function(){
                             $("#loadingBar").removeAttr("style");
                             $("#loadingBar").removeAttr("hidden");
@@ -302,6 +356,69 @@
                         });  
                     }
                     $("#loadingScreen").attr("style", "display:none");
+
+                    if(avgData != null){
+                        $("#canvasDiv").html("<canvas id=\"myChart\"></canvas>");
+                        $("#numBrands").html("Plotting " + avgData[0].length + " brands.")
+                        var ctx = document.getElementById("myChart");
+                        ctx.height = 120;
+                        Chart.defaults.global.legend.display = false;
+                        var myChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: avgData[0],
+                                datasets: [{
+                                    barPercentage: 0.5,
+                                    barThickness: 6,
+                                    maxBarThickness: 8,
+                                    minBarLength: 2,
+                                    data: avgData[1],
+                                    lineTension: 0.3,    
+                                    fill:false,
+                                    borderColor: "#4e73df",
+                                    backgroundColor: "#4e73df",//version >2 useus background color
+                                    hoverBackgroundColor: "#0041ff"
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: 'Average Prices',
+                                            fontSize: 16, 
+                                        },
+                                        ticks: {
+                                            beginAtZero: true,
+                                            fontSize: 15,                                        
+                                            callback: function(value, index, values) {
+                                                // for a value (tick) equals to 8
+                                                return value;
+                                                // 'junior-dev' will be returned instead and displayed on your chart
+                                            }
+                                        },
+                                        type: "logarithmic", 
+                                    }],
+                                    xAxes: [{
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: 'Brand Names',
+                                            fontSize: 16,  
+                                        },
+                                        ticks: {
+                                            fontSize: 16,   
+                                        },
+                                        gridLines: {
+                                            color: "rgba(0, 0, 0, 0)",
+                                        }   
+                                    }]
+                                },
+                            }
+                        });                        
+                    } else {
+                        $("#canvasDiv").html("<h5 class='text-warning'>Average Pricing Values Not Calculated Yet!</h5>");
+                    }
+
                 },
                 error: function(jqXHR, exception){
                     var msg = '';
@@ -334,7 +451,6 @@
         $(document).ready(initTable);
           
         function changeTable(data, active){
-
             html = "";
             data.brands.forEach(function(brand){
                 html = html + "<tr class='clickable-row' data-href='brand.html?brand=" + brand[0] + "'>";
@@ -343,7 +459,9 @@
                 html = html + "<td>" + minPrice + "</td>" // Brand Name
                 maxPrice = (brand[3] == null || brand[4] == null) ? "Not Calculated Yet":  brand[3] + "(" + brand[4] + "₺)" 
                 html = html + "<td>" + maxPrice + "</td>" // Brand Name
-                stdDev = brand[5] == null ? "Not Calculated Yet": brand[5]
+                median = brand[5] == null ? "Not Calculated Yet": brand[5] 
+                html = html + "<td>" + median + " ₺</td>" // Brand Name 
+                stdDev = brand[6] == null ? "Not Calculated Yet": parseFloat(brand[6]).toPrecision(6);
                 html = html + "<td>" + stdDev + "</td>" // Brand Name 
                 html = html + "</tr>"
             });
@@ -355,7 +473,8 @@
             // Info bar changed
             showingFrom = (active-1)*10+1;
             showingTo = showingFrom + data.brands.length - 1;
-            $("#dataTable_info").html("Showing "+ showingFrom +" to " + showingTo);
+            totalNum = data.brandCount + 1;
+            $("#dataTable_info").html("Showing "+ showingFrom +"-" + showingTo + " of " + totalNum + " brands");
 
 
         }
@@ -384,13 +503,16 @@
         $(".page-item").removeClass("active");
         $(".pagination .page-item:nth-child("+page+")" ).addClass("active")
         }
+
         function nextPrev(currentPage, numPage){
         $(".prev, .next").parent().attr("active",currentPage);
         console.log("c,n: "+currentPage+"-"+ numPage )
-        if(currentPage*10 >= numPage){
+        if(currentPage > Math.floor(numPage/10)){
         $(".next").parent().addClass("disabled","");
+        $(".prev").parent().removeClass("disabled");
         } else if (currentPage == 1) {
         $(".prev").parent().addClass("disabled","");
+        $(".next").parent().removeClass("disabled");
         } else {
         $(".prev").parent().removeClass("disabled");
         $(".next").parent().removeClass("disabled");
@@ -436,6 +558,8 @@
             $("#loadingBar").attr("style", "display:none");
             $("#footy").removeAttr("hidden");
         });
-        </script>
+
+
+            </script>
     </body>
 </html>

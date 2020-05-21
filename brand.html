@@ -37,6 +37,9 @@
             background: linear-gradient(159deg, rgba(78,115,223,1) 0%, rgba(99,126,207,1) 100%);
             filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#4e73df",endColorstr="#637ecf",GradientType=1);
         }
+        .col-half-offset{
+            margin-left:4.166666667%
+        }
         </style>
     </head>
     <body id="page-top">
@@ -101,9 +104,9 @@
                                                     Statistical Informations
                                                 </p>
                                             </div>
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col col-lg-3 col-md-6 col-s-12 text-center mb-3">
+                                            <div class="card-body container-fluid">
+                                                <div class="row mb-3">
+                                                    <div class="col text-center mb-3">
                                                         <div class="col col-12" style="background-color: #818181;padding: 4pt; border-radius: 7px;">
                                                             <span class="text-center" style="font-size: 16pt;color: rgb(255,255,255);">
                                                                 Most Expensive Product
@@ -124,7 +127,7 @@
                                                             >Calculate Min-Max</button>
                                                         </div>
                                                     </div>
-                                                    <div class="col col-lg-3 col-md-6 col-s-12 text-center mb-3">
+                                                    <div class="col text-center mb-3">
                                                         <div class="col col-12" style="background-color: #818181;padding: 4pt; border-radius: 7px;">
                                                             <span class="text-center" style="font-size: 16pt;color: rgb(255,255,255);">
                                                                 Cheapest Product
@@ -145,10 +148,10 @@
                                                             >Calculate Min-Max</button>
                                                         </div>
                                                     </div>
-                                                    <div class="col col-lg-3 col-md-6 col-s-12 text-center mb-3">
+                                                    <div class="col text-center mb-3">
                                                         <div class="col col-12" style="background-color: #818181;padding: 4pt; border-radius: 7px;">
                                                             <span class="text-center" style="font-size: 16pt;color: rgb(255,255,255);">
-                                                                Median?
+                                                                Median Price
                                                             </span>
                                                         </div>
                                                         <div class="col col-12 mt-2" id="colMedian">
@@ -159,14 +162,35 @@
                                                                 <span style="font-size: 16pt;"></span>
                                                             </div>
                                                             <button
-                                                                class="btn stActionBtn mt-lg-4"
+                                                                class="btn stActionBtn mt-lg-5 "
                                                                 id="btnMedian"
                                                                 style="font-size: 16pt;"
                                                                 type="button"
                                                             >Calculate Median</button>
                                                         </div>
                                                     </div>
-                                                    <div class="col col-lg-3 col-md-6 col-s-12 text-center mb-3">
+                                                    <div class="col text-center mb-3">
+                                                        <div class="col col-12" style="background-color: #818181;padding: 4pt; border-radius: 7px; border-radius: 7px;">
+                                                            <span class="text-center" style="font-size: 16pt;color: rgb(255,255,255);">
+                                                                Average Price
+                                                            </span>
+                                                        </div>
+                                                        <div class="col col-12 mt-2" id="colStd">
+                                                            <div class="spinner-border text-primary mt-4" style="margin: auto;" role="status" hidden>
+                                                                <span class="sr-only">Loading...</span>
+                                                            </div>
+                                                            <div class="text-center st-info" style="padding: 10px;" hidden>
+                                                                <span style="font-size: 16pt;"></span>
+                                                            </div>
+                                                            <button
+                                                                class="btn stActionBtn mt-lg-5"
+                                                                id="btnAvg"
+                                                                style="font-size: 16pt;"
+                                                                type="button"
+                                                            >Calculate Average Price</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col text-center mb-3">
                                                         <div class="col col-12" style="background-color: #818181;padding: 4pt; border-radius: 7px; border-radius: 7px;">
                                                             <span class="text-center" style="font-size: 16pt;color: rgb(255,255,255);">
                                                                 Standart Deviation
@@ -180,7 +204,7 @@
                                                                 <span style="font-size: 16pt;"></span>
                                                             </div>
                                                             <button
-                                                                class="btn stActionBtn mt-lg-4"
+                                                                class="btn stActionBtn mt-lg-5"
                                                                 id="btnStd"
                                                                 style="font-size: 16pt;"
                                                                 type="button"
@@ -302,7 +326,7 @@
         <!---------------------->
         <!-- Modal -->
         <div
-            class="modal fade mt-5"
+            class="modal fade mt-3 mb-2"
             id="myModal"
             tabindex="-1"
             data-backdrop="static"
@@ -363,7 +387,7 @@
                 $("#loadingScreen").attr("style", "display:none");
             }
             else {
-                $("#brandName").html("Brand:" + brandName.toUpperCase())
+                $("#brandName").html("Brand: " + brandName.toUpperCase())
         
                 function initTable(){
                     $.ajax({
@@ -390,8 +414,8 @@
                                     $.ajax({
                                         url: host + "get-products/"+brandName+"/"+pageNo,
                                         success: function(data){
-                                            $("#loadingBar button").removeAttr("hidden");
-                                            $("#loadingBar .progress").attr("hidden","");
+                                            $("#loadingBar").attr("hidden","");
+                                            $("#footy").removeAttr("hidden");
                                             if(data){
                                                 changeTable(data, pageNo);
                                                 changePagination(parseInt(pageNo) + 1);
@@ -417,8 +441,8 @@
                                     $.ajax({
                                         url: host + "get-products/"+brandName+"/"+pageNo,
                                         success: function(data){
-                                            $("#loadingBar button").removeAttr("hidden");
-                                            $("#loadingBar .progress").attr("hidden","");
+                                            $("#loadingBar").attr("hidden","");
+                                            $("#footy").removeAttr("hidden");
                                             if(data){
                                                 changeTable(data, pageNo);
                                                 changePagination(pageNo+1);
@@ -480,7 +504,7 @@
                             $("#colMax span").html(mostExpProd)
                             cheapestProd = data['minName'] + "<br>" + data['minPrice'] + "₺";
                             $("#colMin span").html(cheapestProd)
-                            stdDev = data['stdDev'];
+                            stdDev = parseFloat(data['stdDev']).toPrecision(6);
                             $("#colStd span").html(stdDev)
                             median = data['median'];
                             $("#colMedian span").html(median)
@@ -598,7 +622,9 @@
                 // Info bar changed
                 showingFrom = (active-1)*10+1;
                 showingTo = showingFrom + data.products.length - 1;
-                $("#dataTable_info").html("Showing "+ showingFrom +" to " + showingTo);
+                totalNum = data.productCount;
+                $("#dataTable_info").html("Showing "+ showingFrom +"-" + showingTo + " of " + totalNum + " products");
+    
 
 
             }
@@ -615,7 +641,8 @@
                         <a class="page-link page-nums" href="#">'+ (i+1) +'</a> \
                         </li>';
                 }
-                html = html + '<li class="page-item" active="1">';
+                isactive = numPages > 1 ? "":"disabled"
+                html = html + '<li class="page-item '+ isactive +'" active="1">';
                 html = html + '<a class="page-link next" href="#" aria-label="Next">';
                 html = html + '<span aria-hidden="true">»</span>';
                 html = html + '</a>';
@@ -626,8 +653,9 @@
             function changePagination(page){
                 $(".page-item").removeClass("active");
                 $(".pagination .page-item:nth-child("+page+")" ).addClass("active")
-                }
-                function nextPrev(currentPage, numPage){
+            }
+            /*
+            function nextPrev(currentPage, numPage){
                 $(".prev, .next").parent().attr("active",currentPage);
                 console.log("c,n: "+currentPage+"-"+ numPage )
                 if(currentPage*10 >= numPage){
@@ -639,7 +667,25 @@
                 $(".next").parent().removeClass("disabled");
                 }
             }
+            */
 
+            function nextPrev(currentPage, numPage){
+                $(".prev, .next").parent().attr("active",currentPage);
+                
+                console.log("c,n: "+currentPage+"-"+ numPage + "- ")
+                if(currentPage > Math.floor(numPage/10)){
+                    if(Math.ceil(numPage/10) > 1){
+                        $(".next").parent().addClass("disabled","");
+                        $(".prev").parent().removeClass("disabled");
+                    }
+                } else if (currentPage == 1) {
+                $(".prev").parent().addClass("disabled","");
+                $(".next").parent().removeClass("disabled");
+                } else {
+                $(".prev").parent().removeClass("disabled");
+                $(".next").parent().removeClass("disabled");
+                }
+                }
             function changeTableValues(data){
                 html = "";
                 data.products.forEach(function(product){
