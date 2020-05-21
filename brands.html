@@ -113,7 +113,7 @@
                                                     <div class="col">
                                                         <div class="btn-toolbar float-right">
                                                             <div class="col col-12">
-                                                                <button class="btn btn-primary" id="findMinMax" type="button">Calculate Average</button>
+                                                                <button class="btn btn-primary" id="calcAvg" type="button">Calculate Average</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -127,8 +127,9 @@
                 
                                                 >
                                                 </div>
+
                                                 <div class="col-md-12" id="loadingGraph" style="display: none;">
-                                                    <div class="progressGraph">
+                                                    <div class="progress">
                                                         <div
                                                             class="progress-bar progress-bar-striped progress-bar-animated"
                                                             role="progressbar"
@@ -138,7 +139,7 @@
                                                             aria-valuemax="100"
                                                         ></div>
                                                     </div>
-                                                    <button class="btn btn-success float-right mb-4" id="btnContinue" hidden>Continue <i class="fas fa-arrow-right"></i></button>
+                                                    <button class="btn btn-success float-right mb-4" id="btnContinueGraph" hidden>Continue <i class="fas fa-arrow-right"></i></button>
                                                     <br>
                                                 </div>
                                                 <div class="row">
@@ -172,7 +173,7 @@
                                                     </div>
                                                 </div>
                                                 <div
-                                                    class="table-responsive table mt-2"
+                                                    class="table-responsive table mt-2 "
                                                     id="dataTable"
                                                     role="grid"
                                                     aria-describedby="dataTable_info"
@@ -290,8 +291,8 @@
         host = "http://ec2-52-3-233-164.compute-1.amazonaws.com:2626/";
         $("#loadingScreen").attr("style", "display:none");
         
-        function initTable(){
-            $.ajax({
+        function initTable(param = 1){
+            $.ajax({ 
                 url: host + "get-brands",
                 success: function(data){
                     if(data == null)
@@ -356,68 +357,17 @@
                         });  
                     }
                     $("#loadingScreen").attr("style", "display:none");
+                    $("#dataTable thead").removeAttr("hidden");
+                    console.log("param")
+                    console.log(param)
+                    if(param == 1)
+                        plotAvg(data);
+                        $("#loadingGraph button").attr("hidden","");
+                        $("#loadingGraph").attr("style", "display:none");
+                        $("#canvasDiv").removeClass("pre-scrollable");
+                        $("#loadingBar button").attr("hidden","");
+                        $("#loadingBar").attr("style", "display:none");
 
-                    if(avgData != null){
-                        $("#canvasDiv").html("<canvas id=\"myChart\"></canvas>");
-                        $("#numBrands").html("Plotting " + avgData[0].length + " brands.")
-                        var ctx = document.getElementById("myChart");
-                        ctx.height = 120;
-                        Chart.defaults.global.legend.display = false;
-                        var myChart = new Chart(ctx, {
-                            type: 'line',
-                            data: {
-                                labels: avgData[0],
-                                datasets: [{
-                                    barPercentage: 0.5,
-                                    barThickness: 6,
-                                    maxBarThickness: 8,
-                                    minBarLength: 2,
-                                    data: avgData[1],
-                                    lineTension: 0.3,    
-                                    fill:false,
-                                    borderColor: "#4e73df",
-                                    backgroundColor: "#4e73df",//version >2 useus background color
-                                    hoverBackgroundColor: "#0041ff"
-                                }]
-                            },
-                            options: {
-                                scales: {
-                                    yAxes: [{
-                                        scaleLabel: {
-                                            display: true,
-                                            labelString: 'Average Prices',
-                                            fontSize: 16, 
-                                        },
-                                        ticks: {
-                                            beginAtZero: true,
-                                            fontSize: 15,                                        
-                                            callback: function(value, index, values) {
-                                                // for a value (tick) equals to 8
-                                                return value;
-                                                // 'junior-dev' will be returned instead and displayed on your chart
-                                            }
-                                        },
-                                        type: "logarithmic", 
-                                    }],
-                                    xAxes: [{
-                                        scaleLabel: {
-                                            display: true,
-                                            labelString: 'Brand Names',
-                                            fontSize: 16,  
-                                        },
-                                        ticks: {
-                                            fontSize: 16,   
-                                        },
-                                        gridLines: {
-                                            color: "rgba(0, 0, 0, 0)",
-                                        }   
-                                    }]
-                                },
-                            }
-                        });                        
-                    } else {
-                        $("#canvasDiv").html("<h5 class='text-warning'>Average Pricing Values Not Calculated Yet!</h5>");
-                    }
 
                 },
                 error: function(jqXHR, exception){
@@ -448,8 +398,75 @@
               });
         }
 
-        $(document).ready(initTable);
-          
+
+        $(document).ready(initTable(param=1));
+        
+        function plotAvg(data){
+
+            if(avgData != null){
+                $("#numBrands").removeAttr("hidden");
+                $("#canvasDiv").html("<canvas id=\"myChart\"></canvas>");
+                $("#numBrands").html("Plotting " + avgData[0].length + " brands.")
+                var ctx = document.getElementById("myChart");
+                ctx.height = 120;
+                Chart.defaults.global.legend.display = false;
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: avgData[0],
+                        datasets: [{
+                            barPercentage: 0.5,
+                            barThickness: 6,
+                            maxBarThickness: 8,
+                            minBarLength: 2,
+                            data: avgData[1],
+                            lineTension: 0.3,    
+                            fill:false,
+                            borderColor: "#4e73df",
+                            backgroundColor: "#4e73df",//version >2 useus background color
+                            hoverBackgroundColor: "#0041ff"
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Average Prices',
+                                    fontSize: 16, 
+                                },
+                                ticks: {
+                                    beginAtZero: true,
+                                    fontSize: 15,                                        
+                                    callback: function(value, index, values) {
+                                        // for a value (tick) equals to 8
+                                        return value;
+                                        // 'junior-dev' will be returned instead and displayed on your chart
+                                    }
+                                },
+                                type: "logarithmic", 
+                            }],
+                            xAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Brand Names',
+                                    fontSize: 16,  
+                                },
+                                ticks: {
+                                    fontSize: 16,   
+                                },
+                                gridLines: {
+                                    color: "rgba(0, 0, 0, 0)",
+                                }   
+                            }]
+                        },
+                    }
+                });                        
+            } else {
+                $("#canvasDiv").html("<h5 class='text-warning'>Average Pricing Values Not Calculated Yet!</h5>");
+            }
+        }
+        
         function changeTable(data, active){
             html = "";
             data.brands.forEach(function(brand){
@@ -459,8 +476,8 @@
                 html = html + "<td>" + minPrice + "</td>" // Brand Name
                 maxPrice = (brand[3] == null || brand[4] == null) ? "Not Calculated Yet":  brand[3] + "(" + brand[4] + "₺)" 
                 html = html + "<td>" + maxPrice + "</td>" // Brand Name
-                median = brand[5] == null ? "Not Calculated Yet": brand[5] 
-                html = html + "<td>" + median + " ₺</td>" // Brand Name 
+                median = brand[5] == null ? "Not Calculated Yet": brand[5] + " ₺"
+                html = html + "<td>" + median + "</td>" // Brand Name 
                 stdDev = brand[6] == null ? "Not Calculated Yet": parseFloat(brand[6]).toPrecision(6);
                 html = html + "<td>" + stdDev + "</td>" // Brand Name 
                 html = html + "</tr>"
@@ -522,6 +539,7 @@
         $("#findMinMax").click(function () {
             $("#brandsBody").html("Calculating...");
             $("#loadingBar").removeAttr("style");
+            $("#loadingBar .progress").removeAttr("hidden");
             $("#dataTable thead").attr("hidden","");
             $("#footy").attr("hidden","");
             $.ajax({
@@ -529,34 +547,56 @@
                 success: function(data){
                     console.log("data");
                     console.log(data);
-                    $("#brandsBody").html("<h2>Results</h2><hr>"+data);
+                    $("#brandsBody").html("<div class='col-11 ml-1'><h2>Results</h2><hr><div class='pre-scrollable'>"+data+"</div></div>");
+                    $("#brandsBody").addClass("pre-scrollable");
                     $("#loadingBar button").removeAttr("hidden");
                     $("#loadingBar .progress").attr("hidden","");
                 }
             });
         });
+
         $("#calcDeviation").click(function () {
             $("#brandsBody").html("Calculating...");
             $("#loadingBar").removeAttr("style");
             $("#dataTable thead").attr("hidden","");
+            $("#loadingBar .progress").removeAttr("hidden");
             $("#footy").attr("hidden","");
             $.ajax({
                 url: host + "start/stdev",
                 success: function(data){
-                    console.log("data");
-                    console.log(data);
-                    $("#brandsBody").html("<h2>Results</h2><hr>"+data);
+                    $("#brandsBody").html("<div class='col-11 ml-1'><h2>Results</h2><hr><div class='pre-scrollable'>"+data+"</div></div>");
+                    $("#brandsBody").addClass("pre-scrollable");
                     $("#loadingBar button").removeAttr("hidden");
                     $("#loadingBar .progress").attr("hidden","");
                 }
             });
         });
+
         $("#btnContinue").click(function(){
-            $("#dataTable thead").removeAttr("hidden");
-            initTable();
-            $("#loadingBar button").attr("hidden","");
-            $("#loadingBar").attr("style", "display:none");
-            $("#footy").removeAttr("hidden");
+            initTable(param=2);
+        });
+
+
+        $("#calcAvg").click(function () {
+            $("#canvasDiv").html("Calculating...<br><br>");
+            $("#numBrands").attr("hidden","");
+            $("#loadingGraph .progress").removeAttr("hidden");
+            $("#loadingGraph").removeAttr("hidden");
+            $("#loadingGraph").removeAttr("style");
+
+            $.ajax({
+                url: host + "start/average",
+                success: function(data){
+                    $("#canvasDiv").html("<h2>Results</h2><hr><div class='pre-scrollable'>"+data+"</div>");
+                    $("#loadingGraph button").removeAttr("hidden");
+                    $("#loadingGraph .progress").attr("hidden","");
+                }
+            });
+        });
+
+
+        $("#btnContinueGraph").click(function(){
+            initTable(param=1);
         });
 
 

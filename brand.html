@@ -405,7 +405,6 @@
                                 $(".page-nums").click(function(){
 
                                     $("#loadingBar").removeAttr("style");
-                                    $("#dataTable thead").attr("hidden","");
                                     $("#footy").attr("hidden","");
                                     $("#brandsBody").html("<h3 style='margin-left:10px;'>Waiting Data...</h3>");
 
@@ -414,6 +413,7 @@
                                     $.ajax({
                                         url: host + "get-products/"+brandName+"/"+pageNo,
                                         success: function(data){
+                                            $("#dataTable thead").removeAttr("hidden");
                                             $("#loadingBar").attr("hidden","");
                                             $("#footy").removeAttr("hidden");
                                             if(data){
@@ -441,6 +441,7 @@
                                     $.ajax({
                                         url: host + "get-products/"+brandName+"/"+pageNo,
                                         success: function(data){
+                                            $("#dataTable thead").removeAttr("hidden");
                                             $("#loadingBar").attr("hidden","");
                                             $("#footy").removeAttr("hidden");
                                             if(data){
